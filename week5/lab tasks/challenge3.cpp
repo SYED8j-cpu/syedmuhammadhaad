@@ -38,4 +38,4 @@ int main()
     cout << "LCM: " << lcm << endl;
 
     return 0;
-}
+}  
