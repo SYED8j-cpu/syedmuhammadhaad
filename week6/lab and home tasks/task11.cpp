@@ -6,11 +6,11 @@ int main()
     int n;
     cout << "Enter size of array: ";
     cin >> n;
-    int arr[n];
+    int array[n];
     cout << "Enter elements:\n";
     for(int i = 0; i < n; i++)
     {
-        cin >> arr[i];
+        cin >> array[i];
     }
 
     bool isSpecial = true;
@@ -18,7 +18,7 @@ int main()
     {
         if(i % 2 == 0)
         {
-            if(arr[i] % 2 != 0)
+            if(array[i] % 2 != 0)
             {
                 isSpecial = false;
                 break;
@@ -26,9 +26,9 @@ int main()
         }
         else
         {
-            if(arr[i] % 2 == 0)
+            if(array[i] % 2 == 0)
             {
-                isSpecial = false;
+                isSpecial = true;
                 break;
             }
         }
