@@ -3,226 +3,291 @@
 
 using namespace std;
 
+// Limits and Global Storage
+const int MAX = 100;
+int ids[MAX];
+string owners[MAX];
+double prices[MAX];
+string types[MAX]; // Apartment, Villa, etc.
+string history[50];
+
+int houseCount = 0;
+int historyCount = 0;
+
+// --- FUNCTION PROTOTYPES ---
+void logAction(string action);
+void pause();
+void addHouse();
+void displayAll();
+void updateHouse();
+void deleteHouse();
+void searchByID();
+void sortByPrice();
+void sortByID();
+void viewHistory();
+void clearAll();
+
 int main()
 {
-    // Limits and Arrays
-    const int MAX = 100;
-    int ids[MAX];
-    string names[MAX];
-    float gpas[MAX];
-    string history[50]; // History log
+    int roleChoice, choice = 0;
+    bool isAdmin = false;
 
-    int studentCount = 0;
-    int historyCount = 0;
-    int choice = 0;
+    cout << "====================================" << endl;
+    cout << "    HOUSE MANAGEMENT SYSTEM" << endl;
+    cout << "====================================" << endl;
+    cout << "1. Admin (Staff)\n2. User (Client)\nEnter Role: ";
+    cin >> roleChoice;
 
-    while (choice != 10)
+    if (roleChoice == 1)
     {
-        // Simple Menu
-        cout << "\n====================================" << endl;
-        cout << "    STUDENT MANAGEMENT SYSTEM" << endl;
-        cout << "====================================" << endl;
-        cout << "1. Add Student (Create)" << endl;
-        cout << "2. Display All (Read)" << endl;
-        cout << "3. Update Student (Update)" << endl;
-        cout << "4. Delete Student (Delete)" << endl;
-        cout << "5. Search by ID" << endl;
-        cout << "6. Sort by GPA (High to Low)" << endl;
-        cout << "7. Sort by ID (Low to High)" << endl;
-        cout << "8. View Action History" << endl;
-        cout << "9. Clear All Records" << endl;
-        cout << "10. Exit" << endl;
-        cout << "Enter Choice: ";
-        cin >> choice;
-        cin.ignore(); // Clean buffer after choice
-
-        // 1. ADD STUDENT
-        if (choice == 1)
+        string pass;
+        cout << "Enter Admin Password: ";
+        cin >> pass;
+        if (pass == "admin123")
+            isAdmin = true;
+        else
         {
-            if (studentCount < MAX)
-            {
-                cout << "Enter ID: ";
-                cin >> ids[studentCount];
-                cin.ignore();
-                cout << "Enter Name: ";
-                getline(cin, names[studentCount]);
-                cout << "Enter GPA: ";
-                cin >> gpas[studentCount];
-                cin.ignore();
-
-                studentCount++;
-                if (historyCount < 50)
-                    history[historyCount++] = "Added a student.";
-                cout << "\n[SUCCESS] Student added!";
-            }
-            else
-            {
-                cout << "\n[ERROR] System full!";
-            }
-        }
-
-        // 2. DISPLAY ALL
-        else if (choice == 2)
-        {
-            cout << "\n--- ALL RECORDS ---" << endl;
-            if (studentCount == 0)
-                cout << "No records found." << endl;
-            for (int i = 0; i < studentCount; i++)
-            {
-                cout << "ID: " << ids[i] << " | Name: " << names[i] << " | GPA: " << gpas[i] << endl;
-            }
-            if (historyCount < 50)
-                history[historyCount++] = "Viewed all records.";
-        }
-
-        // 3. UPDATE STUDENT
-        else if (choice == 3)
-        {
-            int sid, found = -1;
-            cout << "Enter ID to update: ";
-            cin >> sid;
-            for (int i = 0; i < studentCount; i++)
-            {
-                if (ids[i] == sid)
-                {
-                    found = i;
-                    break;
-                }
-            }
-            if (found != -1)
-            {
-                cin.ignore();
-                cout << "Enter New Name: ";
-                getline(cin, names[found]);
-                cout << "Enter New GPA: ";
-                cin >> gpas[found];
-                cin.ignore();
-                if (historyCount < 50)
-                    history[historyCount++] = "Updated a student.";
-                cout << "\n[SUCCESS] Record updated!";
-            }
-            else
-                cout << "\n[ERROR] Student not found.";
-        }
-
-        // 4. DELETE STUDENT
-        else if (choice == 4)
-        {
-            int did, found = -1;
-            cout << "Enter ID to delete: ";
-            cin >> did;
-            for (int i = 0; i < studentCount; i++)
-            {
-                if (ids[i] == did)
-                {
-                    found = i;
-                    break;
-                }
-            }
-            if (found != -1)
-            {
-                for (int i = found; i < studentCount - 1; i++)
-                {
-                    ids[i] = ids[i + 1];
-                    names[i] = names[i + 1];
-                    gpas[i] = gpas[i + 1];
-                }
-                studentCount--;
-                if (historyCount < 50)
-                    history[historyCount++] = "Deleted a student.";
-                cout << "\n[SUCCESS] Student deleted!";
-            }
-            else
-                cout << "\n[ERROR] Student not found.";
-        }
-
-        // 5. SEARCH BY ID
-        else if (choice == 5)
-        {
-            int sid;
-            cout << "Enter ID: ";
-            cin >> sid;
-            bool found = false;
-            for (int i = 0; i < studentCount; i++)
-            {
-                if (ids[i] == sid)
-                {
-                    cout << "Found -> Name: " << names[i] << ", GPA: " << gpas[i] << endl;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-                cout << "Not found.";
-            if (historyCount < 50)
-                history[historyCount++] = "Searched for student.";
-        }
-
-        // 6. SORT BY GPA (Bubble Sort)
-        else if (choice == 6)
-        {
-            for (int i = 0; i < studentCount - 1; i++)
-            {
-                for (int j = 0; j < studentCount - i - 1; j++)
-                {
-                    if (gpas[j] < gpas[j + 1])
-                    {
-                        swap(gpas[j], gpas[j + 1]);
-                        swap(ids[j], ids[j + 1]);
-                        swap(names[j], names[j + 1]);
-                    }
-                }
-            }
-            cout << "\n[SUCCESS] Sorted by GPA (Descending)!";
-            if (historyCount < 50)
-                history[historyCount++] = "Sorted by GPA.";
-        }
-
-        // 7. SORT BY ID (Bubble Sort)
-        else if (choice == 7)
-        {
-            for (int i = 0; i < studentCount - 1; i++)
-            {
-                for (int j = 0; j < studentCount - i - 1; j++)
-                {
-                    if (ids[j] > ids[j + 1])
-                    {
-                        swap(ids[j], ids[j + 1]);
-                        swap(gpas[j], gpas[j + 1]);
-                        swap(names[j], names[j + 1]);
-                    }
-                }
-            }
-            cout << "\n[SUCCESS] Sorted by ID (Ascending)!";
-            if (historyCount < 50)
-                history[historyCount++] = "Sorted by ID.";
-        }
-
-        // 8. VIEW HISTORY
-        else if (choice == 8)
-        {
-            cout << "\n--- SESSION HISTORY ---" << endl;
-            for (int i = 0; i < historyCount; i++)
-                cout << i + 1 << ". " << history[i] << endl;
-        }
-
-        // 9. CLEAR ALL
-        else if (choice == 9)
-        {
-            studentCount = 0;
-            cout << "\n[SUCCESS] All records wiped!";
-            if (historyCount < 50)
-                history[historyCount++] = "Cleared all records.";
-        }
-
-        // THE PAUSE LOGIC (Runs after every choice except Exit)
-        if (choice >= 1 && choice <= 9)
-        {
-            cout << "\n\nPress Enter to return to main menu...";
-            cin.get(); // Waits for user input
+            cout << "Wrong password! Entry as User.";
+            isAdmin = false;
         }
     }
 
-    cout << "Exiting program. Goodbye!" << endl;
+    while (choice != 10)
+    {
+        cout << "\nLogged in as: " << (isAdmin ? "ADMIN" : "USER") << endl;
+        cout << "====================================" << endl;
+        cout << "1. Add Property (Admin)" << endl;
+        cout << "2. Display All Properties" << endl;
+        cout << "3. Update Property (Admin)" << endl;
+        cout << "4. Delete Property (Admin)" << endl;
+        cout << "5. Search by House ID" << endl;
+        cout << "6. Sort by Price (High to Low)" << endl;
+        cout << "7. Sort by ID (Low to High)" << endl;
+        cout << "8. View Action History" << endl;
+        cout << "9. Clear All Records (Admin)" << endl;
+        cout << "10. Exit" << endl;
+        cout << "Enter Choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            if (isAdmin)
+                addHouse();
+            else
+                cout << "[DENIED] Admin only.";
+            break;
+        case 2:
+            displayAll();
+            break;
+        case 3:
+            if (isAdmin)
+                updateHouse();
+            else
+                cout << "[DENIED] Admin only.";
+            break;
+        case 4:
+            if (isAdmin)
+                deleteHouse();
+            else
+                cout << "[DENIED] Admin only.";
+            break;
+        case 5:
+            searchByID();
+            break;
+        case 6:
+            sortByPrice();
+            break;
+        case 7:
+            sortByID();
+            break;
+        case 8:
+            viewHistory();
+            break;
+        case 9:
+            if (isAdmin)
+                clearAll();
+            else
+                cout << "[DENIED] Admin only.";
+            break;
+        }
+        if (choice >= 1 && choice <= 9)
+            pause();
+    }
     return 0;
+}
+
+// --- FUNCTIONS ---
+
+void logAction(string action)
+{
+    if (historyCount < 50)
+        history[historyCount++] = action;
+}
+
+void pause()
+{
+    cout << "\nPress Enter to continue...";
+    cin.ignore();
+    cin.get();
+}
+
+void addHouse()
+{
+    if (houseCount < MAX)
+    {
+        cout << "Enter House ID: ";
+        cin >> ids[houseCount];
+        cin.ignore();
+        cout << "Enter Owner Name: ";
+        getline(cin, owners[houseCount]);
+        cout << "Enter Property Type: ";
+        getline(cin, types[houseCount]);
+        cout << "Enter Price: $";
+        cin >> prices[houseCount];
+        houseCount++;
+        logAction("Added Property ID: " + to_string(ids[houseCount - 1]));
+        cout << "[SUCCESS] Property added!";
+    }
+    else
+        cout << "[ERROR] System full!";
+}
+
+void displayAll()
+{
+    cout << "\n--- ALL PROPERTIES ---" << endl;
+    if (houseCount == 0)
+        cout << "No records found." << endl;
+    for (int i = 0; i < houseCount; i++)
+    {
+        cout << "ID: " << ids[i] << " | Owner: " << owners[i]
+             << " | Type: " << types[i] << " | Price: $" << prices[i] << endl;
+    }
+    logAction("Viewed all properties.");
+}
+
+void updateHouse()
+{
+    int id, found = -1;
+    cout << "Enter ID to update: ";
+    cin >> id;
+    for (int i = 0; i < houseCount; i++)
+    {
+        if (ids[i] == id)
+        {
+            found = i;
+            break;
+        }
+    }
+    if (found != -1)
+    {
+        cin.ignore();
+        cout << "New Owner: ";
+        getline(cin, owners[found]);
+        cout << "New Price: ";
+        cin >> prices[found];
+        logAction("Updated Property ID: " + to_string(id));
+        cout << "[SUCCESS] Record updated!";
+    }
+    else
+        cout << "Not found.";
+}
+
+void deleteHouse()
+{
+    int id, found = -1;
+    cout << "Enter ID to delete: ";
+    cin >> id;
+    for (int i = 0; i < houseCount; i++)
+    {
+        if (ids[i] == id)
+        {
+            found = i;
+            break;
+        }
+    }
+    if (found != -1)
+    {
+        for (int i = found; i < houseCount - 1; i++)
+        {
+            ids[i] = ids[i + 1];
+            owners[i] = owners[i + 1];
+            prices[i] = prices[i + 1];
+            types[i] = types[i + 1];
+        }
+        houseCount--;
+        logAction("Deleted Property ID: " + to_string(id));
+        cout << "[SUCCESS] Deleted!";
+    }
+    else
+        cout << "Not found.";
+}
+
+void searchByID()
+{
+    int id;
+    cout << "Enter ID: ";
+    cin >> id;
+    for (int i = 0; i < houseCount; i++)
+    {
+        if (ids[i] == id)
+        {
+            cout << "Found -> Owner: " << owners[i] << ", Price: $" << prices[i] << endl;
+            logAction("Searched for ID: " + to_string(id));
+            return;
+        }
+    }
+    cout << "Not found.";
+}
+
+void sortByPrice()
+{
+    for (int i = 0; i < houseCount - 1; i++)
+    {
+        for (int j = 0; j < houseCount - i - 1; j++)
+        {
+            if (prices[j] < prices[j + 1])
+            {
+                swap(prices[j], prices[j + 1]);
+                swap(ids[j], ids[j + 1]);
+                swap(owners[j], owners[j + 1]);
+                swap(types[j], types[j + 1]);
+            }
+        }
+    }
+    cout << "[SUCCESS] Sorted by Price (High to Low).";
+    logAction("Sorted by Price.");
+}
+
+void sortByID()
+{
+    for (int i = 0; i < houseCount - 1; i++)
+    {
+        for (int j = 0; j < houseCount - i - 1; j++)
+        {
+            if (ids[j] > ids[j + 1])
+            {
+                swap(ids[j], ids[j + 1]);
+                swap(prices[j], prices[j + 1]);
+                swap(owners[j], owners[j + 1]);
+                swap(types[j], types[j + 1]);
+            }
+        }
+    }
+    cout << "[SUCCESS] Sorted by ID (Low to High).";
+    logAction("Sorted by ID.");
+}
+
+void viewHistory()
+{
+    cout << "\n--- SESSION HISTORY ---" << endl;
+    for (int i = 0; i < historyCount; i++)
+        cout << i + 1 << ". " << history[i] << endl;
+}
+
+void clearAll()
+{
+    houseCount = 0;
+    logAction("Cleared all records.");
+    cout << "[SUCCESS] All data wiped!";
 }

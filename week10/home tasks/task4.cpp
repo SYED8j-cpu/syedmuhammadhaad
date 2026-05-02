@@ -9,7 +9,8 @@
 #include <cmath>
 using namespace std;
 
-string projectTimeCalculation(int neededHours, int days, int workers) {
+string projectTimeCalculation(int neededHours, int days, int workers)
+{
     // 10% of days are training days → only 90% are working days
     double workingDays = days * 0.9;
 
@@ -19,16 +20,20 @@ string projectTimeCalculation(int neededHours, int days, int workers) {
     // Round down to nearest integer
     int availableHours = (int)floor(totalHours);
 
-    if (availableHours >= neededHours) {
+    if (availableHours >= neededHours)
+    {
         int hoursLeft = availableHours - neededHours;
         return "Yes!" + to_string(hoursLeft) + " hours left.";
-    } else {
+    }
+    else
+    {
         int hoursNeeded = neededHours - availableHours;
         return "Not enough time!" + to_string(hoursNeeded) + " hours needed.";
     }
 }
 
-int main() {
+int main()
+{
     int neededHours, days, workers;
 
     cout << "Enter needed hours: ";

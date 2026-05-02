@@ -3,20 +3,27 @@
 #include <iostream>
 using namespace std;
 
-float calculateSalary(float base, int score, int experience) {
+float calculateSalary(float base, int score, int experience)
+{
     float bonusPercent = 0;
 
     // Performance score bonus
-    if (score >= 90) {
+    if (score >= 90)
+    {
         bonusPercent = 20;
-    } else if (score >= 75) {
+    }
+    else if (score >= 75)
+    {
         bonusPercent = 10;
-    } else {
+    }
+    else
+    {
         bonusPercent = 5;
     }
 
     // Experience bonus
-    if (experience >= 5) {
+    if (experience >= 5)
+    {
         bonusPercent += 5;
     }
 
@@ -24,7 +31,8 @@ float calculateSalary(float base, int score, int experience) {
     return base + totalBonus;
 }
 
-int main() {
+int main()
+{
     float base;
     int score, experience;
 

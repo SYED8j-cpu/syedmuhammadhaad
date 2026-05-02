@@ -8,24 +8,34 @@
 #include <sstream>
 using namespace std;
 
-string pyramidVolume(double length, double width, double height, string unit) {
+string pyramidVolume(double length, double width, double height, string unit)
+{
     // Calculate volume in cubic meters first
     double volumeMeters = (1.0 / 3.0) * length * width * height;
 
     double convertedVolume;
 
-    if (unit == "millimeters") {
+    if (unit == "millimeters")
+    {
         // 1 meter = 1000 mm → 1 cubic meter = 1000^3 cubic mm
         convertedVolume = volumeMeters * 1e9;
-    } else if (unit == "centimeters") {
+    }
+    else if (unit == "centimeters")
+    {
         // 1 meter = 100 cm → 1 cubic meter = 100^3 cubic cm
         convertedVolume = volumeMeters * 1e6;
-    } else if (unit == "meters") {
+    }
+    else if (unit == "meters")
+    {
         convertedVolume = volumeMeters;
-    } else if (unit == "kilometers") {
+    }
+    else if (unit == "kilometers")
+    {
         // 1 meter = 0.001 km → 1 cubic meter = 0.001^3 cubic km
         convertedVolume = volumeMeters * 1e-9;
-    } else {
+    }
+    else
+    {
         return "Invalid unit!";
     }
 
@@ -34,7 +44,8 @@ string pyramidVolume(double length, double width, double height, string unit) {
     return oss.str();
 }
 
-int main() {
+int main()
+{
     double length, width, height;
     string unit;
 

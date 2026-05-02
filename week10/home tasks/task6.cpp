@@ -6,20 +6,24 @@
 using namespace std;
 
 // Helper function: calculates factorial of a single digit
-int factorial(int n) {
+int factorial(int n)
+{
     int result = 1;
-    for (int i = 2; i <= n; i++) {
+    for (int i = 2; i <= n; i++)
+    {
         result *= i;
     }
     return result;
 }
 
 // Main function: checks if num is a Strong Number
-bool isStrong(int num) {
+bool isStrong(int num)
+{
     int temp = num;
     int sumOfFactorials = 0;
 
-    while (temp > 0) {
+    while (temp > 0)
+    {
         int digit = temp % 10;
         sumOfFactorials += factorial(digit);
         temp /= 10;
@@ -28,13 +32,17 @@ bool isStrong(int num) {
     return sumOfFactorials == num;
 }
 
-int main() {
+int main()
+{
     int num;
     cin >> num;
 
-    if (isStrong(num)) {
+    if (isStrong(num))
+    {
         cout << "Strong Number" << endl;
-    } else {
+    }
+    else
+    {
         cout << "Not Strong Number" << endl;
     }
 
