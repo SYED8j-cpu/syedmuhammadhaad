@@ -28,44 +28,16 @@
 using namespace std;
 
 
-// ═════════════════════════════════════════════════════════════
-//  PART 1 — OUR OWN RANDOM NUMBER GENERATOR
-//
-//  rand() and srand() came from <cstdlib>.
-//  We replace them with a simple formula called an LCG
-//  (Linear Congruential Generator).
-//
-//  How it works:
-//    - We keep one number called rngState (the "seed").
-//    - Every time we want a random number we run:
-//        rngState = rngState * BIG_NUMBER + ANOTHER_NUMBER
-//      This scrambles rngState into a new value.
-//    - We return part of that scrambled value.
-//  The two magic numbers below are from a famous maths book
-//  ("Numerical Recipes") — they are known to produce a good
-//  spread of values.
-// ═════════════════════════════════════════════════════════════
 
-unsigned int rngState = 12345;   // Starting value (the "seed").
-                                 // Any number works here.
-
-// Call this once at the start to set the seed.
-// Different seeds → different enemy behaviour each game.
+unsigned int rngState = 12345;   
 void seedRng(unsigned int newSeed)
 {
     rngState = newSeed;
 }
 
-// Returns one non-negative random integer.
-// Replaces rand().
+
 int myRand()
 {
-    // LCG formula — multiplier and increment from Numerical Recipes.
-    rngState = rngState * 1664525u + 1013904223u;
-
-    // Keep only the lower 31 bits so the result is always positive.
-    // The >> 1 shifts right by 1 bit, which is the same as dividing
-    // by 2 and dropping the sign bit.
     return (int)((rngState >> 1) & 0x7FFFFFFF);
 }
 
